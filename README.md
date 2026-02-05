@@ -1,51 +1,50 @@
-RISC-V 5-Stage Pipeline Traffic Controller
-A real-time traffic management system written in RISC-V Assembly, specifically engineered and verified for a 5-stage pipeline architecture using the Ripes simulator.
+# RISC-V 5-Stage Pipeline Traffic Controller
 
-🚦 Overview
-This project implements an intelligent traffic light controller for a four-way intersection. It is built with a "hardware-first" mindset, manually managing the timing and hazards inherent in pipelined processors—stages typically abstracted away by high-level languages.
+A real-time traffic management system written in **RISC-V Assembly**, specifically engineered and verified for a **5-stage pipeline architecture** using the **Ripes** simulator.
 
-🛠 Technical Features
-Pipeline-Aware Design: Optimized for the standard 5-stage pipeline (IF, ID, EX, MEM, WB).
+---
 
-Hazard Mitigation: Features strategic instruction scheduling and NOP insertion to handle:
+## 🚦 Overview
+This project implements an intelligent traffic light controller for a four-way intersection. It is built with a **"hardware-first"** mindset, manually managing the timing and hazards inherent in pipelined processors—stages typically abstracted away by high-level languages.
 
-Load-Use Hazards: Ensuring data loaded from memory is ready before being used in the next cycle.
+---
 
-Control Hazards: Managing branch latencies to ensure correct execution flow.
+## 🎥 What’s Happening on the LED Screen?
+Think of the LED grid as a birds-eye view of a **busy city intersection**. The code acts as the "Traffic Police," directing the flow of virtual cars by controlling four sets of signals.
 
-Multi-Mode Finite State Machine (FSM):
+### **The Visual Layout**
+* **The Intersection:** You’ll see a dark grey cross. This represents the **asphalt** where the two roads meet.
+* **The Four Signals:** There are lights at the North, South, East, and West ends of the cross.
+* **The Pulse:** The lights aren't just flat dots; they have a slight **"flicker" or movement**. This is a **heartbeat animation**—it shows that the "brain" of the controller is actively thinking and processing data every millisecond.
 
-Normal: Standard intersection cycling.
+### **🕒 Timing & Logic**
+The system follows a strict schedule to keep the roads safe:
+* 🟢 **Green:** Traffic is allowed to move.
+* 🟡 **Yellow:** The "warning" phase, telling cars to prepare to stop.
+* 🔴 **Red:** The "wait" phase, allowing the other road to take its turn.
 
-Rush Hour: Modified timing for peak traffic.
+---
 
-Emergency Flash: Cautionary flashing mode.
+## 🔄 Dynamic Traffic Patterns
+The controller automatically changes its behavior to simulate real-world traffic scenarios:
 
-All-Way Stop: Immediate safety halt.
+1. **Normal Flow:** Standard, equal timing for all sides.
+2. **Rush Hour:** Timing is adjusted to handle heavier traffic flow efficiently.
+3. **Emergency Override:** All four lights flash **Orange**. This represents an emergency vehicle (like a fire truck) passing through.
+4. **All-Way Stop:** Every light turns **Red**. This is the safety **"Fail-Safe"** mode that halts all traffic instantly.
 
-Memory-Mapped I/O (MMIO): Directly interfaces with a 25x25 LED display at address 0xF0000000.
+---
 
-🖥 Simulation in Ripes
-This project was developed and tested using Ripes, utilizing its visual pipeline tool to verify hazard handling.
+## 🛠️ How to Execute (Step-by-Step)
+To see the traffic controller in action in **Ripes**, follow these instructions exactly:
 
-How to Run:
-Open the Ripes simulator.
-
-Load orange_code.s.
-
-IO Setup: Configure a D/A (Digital-to-Analog) or LED Display peripheral.
-
-Base Address: 0xF0000000
-
-Width/Height: 25 x 25
-
-Switch to the Processor Tab and select a 5-stage processor model (e.g., 5-stage RISC-V processor).
-
-Run the simulation and observe the "Instruction Pipeline" view to see the hazard handling in action.
-
-🏗 Key Components
-Diagnostic Suite: Verifies LED address accessibility before starting.
-
-Animation Engine: Uses a dedicated frame counter to drive smooth transitions on the display.
-
-Cycle Counter: Real-time tracking of processor cycles for performance benchmarking.
+1. **Copy the Code:** Copy the assembly code into a standard text file (e.g., `traffic.s`).
+2. **Load in Ripes:** Open the **Ripes** application and load your saved file.
+3. **Configure the LED Matrix:** * Open the **I/O Tab**.
+   * Set **Height** & **Width** to **25**.
+   * Set **LED Size** to **16**.
+4. **Run the Simulation:**
+   * Press the **Play** button on the top bar.
+   * Reduce the **Time** (speed) slider beside the play button to **1ms – 10ms**.
+   * **Pause** the execution using the same button if you need to inspect the state.
+   * To see the high-speed logic, press the **Double Forward (≫)** sign beside the play button.
